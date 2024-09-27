@@ -1,6 +1,6 @@
 import yaml
 import logging
-from . import files
+from .file_utils import list_yamls
 
 def read_yaml(path):
     with open(path, 'r') as f:
@@ -8,8 +8,7 @@ def read_yaml(path):
         return d
 
 def get_yaml(filename):
-    filenames = files.list_yamls('.')
-    print (filenames)
+    filenames = list_yamls('.')
     try:
         for file in filenames:
             if filename.lower() in file.lower():

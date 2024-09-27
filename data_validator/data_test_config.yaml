@@ -1,0 +1,7 @@
+source_db: mysql
+target_db: mongodb
+
+test-type:
+    - validate_row_table_count 
+    - validate_schema
+    - check_for_duplicates

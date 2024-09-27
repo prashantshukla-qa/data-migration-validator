@@ -5,6 +5,7 @@ source_db:
     port: 3306
     username: prashant
     password: Qait@123
+    database: autoretail
 target_db:
   type: mongodb
   connection:
@@ -12,3 +13,4 @@ target_db:
     port: 27017
     username: prashant-mongo
     password: Qait@123
+    database: AutoRetail

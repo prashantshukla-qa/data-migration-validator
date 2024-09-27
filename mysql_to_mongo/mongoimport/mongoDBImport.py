@@ -18,9 +18,9 @@ def import_to_mongoDB(table_name):
 def import_to_mongoDB(table_name, json_data):
     client = MongoClient('localhost', 27017)
     db = client['AutoRetail']
-    collection_currency = db[table_name]
+    collection_autoretail = db[table_name]
 
-    collection_currency.insert_many(json.loads(json_data))
+    collection_autoretail.insert_many(json.loads(json_data))
 
     client.close()
     print("Table %s imported to the MongoDB!!" % table_name)
