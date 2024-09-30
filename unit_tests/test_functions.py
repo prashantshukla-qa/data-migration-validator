@@ -1,5 +1,5 @@
 from utils.read_yaml import get_yaml
-from utils import database_connector
+from database_connectors import mysql_conn, mongodb_conn
 from utils.constants import Constants
 from utils.file_utils import list_test_yamls
 from data_validators import validate_data
@@ -19,13 +19,13 @@ class TestFunctions:
 
     def test_mysql_db_connections(self):
         connection_yaml = get_yaml(self.configfilename)["mysql"]
-        db_row_count = database_connector.get_mysql_table_row_count(
+        db_row_count = mysql_conn.get_mysql_table_row_count(
             connection_yaml=connection_yaml)
         print(db_row_count)
         assert len(db_row_count) == 8
 
     def test_mongodb_document_read(self):
-        document_list = database_connector.get_mongodb_documents(
+        document_list = mongodb_conn.get_mongodb_documents(
             get_yaml(self.configfilename)["mongodb"], "offices")
         print(len(document_list))
         print(type(document_list))
@@ -33,6 +33,12 @@ class TestFunctions:
 
     def test_table_row_count(self):
         validate_data.check_table_row_count()
+        
+    def test_duplicates(self):
+        validate_data.check_for_duplicates()
+        
+    def test_get_primary_keys(self):
+        print (mysql_conn.get_mysql_primary_keys(get_yaml(self.configfilename)["mysql"]))
 
     def test_get_test_option_files(self):
         test_option_yamls = list_test_yamls("../test_options/")

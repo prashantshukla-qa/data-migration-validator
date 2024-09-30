@@ -35,7 +35,8 @@ def execute_validation_tests():
     test_files = list_test_yamls(Constants.TEST_FILE_LOC)
     for file in test_files:
         test_case = read_yaml(file)
-        print("Executing test:- " + test_case["test_name"])
+        print("\nExecuting test:- " + test_case["test_name"])
+        print ("There are " + str(len(test_case["data-validations"]["steps"])) + " validations in the test case")
         perform_validation(test_case)
 
 
@@ -54,6 +55,10 @@ def perform_validation(test_case):
                 print("="*20)
             elif "duplicate" in test_type.lower():
                 print("Checking for duplicates")
+                print("="*20)
+                validate_data.check_for_duplicates()
+            elif "validate_min_max" in test_type.lower():
+                print("Checking for Min Max Values")
                 print("="*20)
             else:
                 raise Exception(

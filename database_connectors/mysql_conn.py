@@ -2,6 +2,7 @@ import mysql.connector
 from pymongo import MongoClient
 from utils import file_utils
 from db_scripts.mysql import sql_scripts
+from collections import defaultdict
 import simplejson as json
 
 
@@ -24,6 +25,22 @@ def get_mysql_table_row_count(connection_yaml):
     return db_rows
 
 
+def get_mysql_primary_keys(mysql_connection_yaml):
+    mysql_db = get_mysql_connection(connection_yaml=mysql_connection_yaml)
+    mycursor = mysql_db.cursor(buffered=True)
+    mycursor.execute(sql_scripts.queries.GET_TABLE_NAMES,
+                     (mysql_connection_yaml["database"],))
+    db_tables = mycursor.fetchall()
+    primary_keys = defaultdict(list)
+    mycursor.execute(sql_scripts.queries.GET_PRIMARY_KEYS,
+                     (mysql_connection_yaml["database"],))
+    results = mycursor.fetchall()
+    for each_result in results:
+        primary_keys[each_result[0]].append(each_result[1])
+    mysql_db.close()
+    return primary_keys
+
+
 def get_mysql_connection(connection_yaml):
     return mysql.connector.connect(
         host=connection_yaml["host"],
@@ -31,25 +48,6 @@ def get_mysql_connection(connection_yaml):
         password=connection_yaml["password"],
         database=connection_yaml["database"]
     )
-
-
-def get_mongodb_documents(mongo_connection_yaml, collection_name):
-    client = MongoClient(
-        mongo_connection_yaml["host"], mongo_connection_yaml["port"])
-    db = client[mongo_connection_yaml["database"]]
-    documents = db[collection_name].find()
-    document_list = list(documents)
-    client.close()
-    return document_list
-
-
-def get_mongodb_collections(mongo_connection_yaml):
-    client = MongoClient(
-        mongo_connection_yaml["host"], mongo_connection_yaml["port"])
-    db = client[mongo_connection_yaml["database"]]
-    collections = db.list_collection_names()
-    client.close()
-    return collections
 
 
 if __name__ == "__main__":

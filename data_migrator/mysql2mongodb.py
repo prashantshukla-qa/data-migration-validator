@@ -1,7 +1,7 @@
 import simplejson as json
 from datetime import date, datetime
 from data_migrator.mongoimport import mongoDBImport
-from utils import database_connector
+from database_connectors import mysql_conn, mongodb_conn
 from utils.constants import Constants
 from utils.read_yaml import get_yaml
 
@@ -14,7 +14,7 @@ def serialize_datetime(obj):
 
 def main():
     database_yaml = get_yaml(Constants.DATABASE_CONFIG_FILENAME)
-    mydb = database_connector.get_mysql_connection(database_yaml["mysql"])
+    mydb = mysql_conn.get_mysql_connection(database_yaml["mysql"])
     mycursor = mydb.cursor()
 
     mycursor.execute("SELECT table_name FROM information_schema.tables WHERE table_schema = '%s';" %

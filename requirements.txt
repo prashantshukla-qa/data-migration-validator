@@ -1,5 +1,5 @@
-mysql-connector-python==9.0.0
-pymongo==4.9.1
-simplejson==3.19.3
-PyYAML==6.0.2
-colorama ~= 0.4.6
+mysql-connector-python >= 9.0.0
+pymongo >= 4.9.1
+simplejson >= 3.19.3
+PyYAML >= 6.0.2
+colorama >= 0.4.6
