@@ -2,6 +2,7 @@ from utils.read_yaml import get_yaml, read_yaml
 from utils.file_utils import list_test_yamls
 from utils.constants import Constants
 from data_migrator import mysql2mongodb
+from data_validators import validate_data   
 import argparse
 
 test_options = get_yaml(Constants.DATA_TEST_CONFIG_FILENAME)
@@ -47,6 +48,7 @@ def perform_validation(test_case):
             if "row" in test_type.lower() and "count" in test_type.lower():
                 print("Validating Row Count Post Migration")
                 print("="*20)
+                validate_data.check_table_row_count()
             elif "schema" in test_type.lower():
                 print("Validating schema of source and target data")
                 print("="*20)
