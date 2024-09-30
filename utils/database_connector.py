@@ -6,6 +6,9 @@ import simplejson as json
 
 
 def get_mysql_table_row_count(connection_yaml):
+    """
+    return a dictionary of tablename and respective row counts in the table
+    """
     mydb = get_mysql_connection(connection_yaml=connection_yaml)
     mycursor = mydb.cursor()
     mycursor.execute(sql_scripts.queries.GET_TABLE_NAMES,
@@ -38,6 +41,15 @@ def get_mongodb_documents(mongo_connection_yaml, collection_name):
     document_list = list(documents)
     client.close()
     return document_list
+
+
+def get_mongodb_collections(mongo_connection_yaml):
+    client = MongoClient(
+        mongo_connection_yaml["host"], mongo_connection_yaml["port"])
+    db = client[mongo_connection_yaml["database"]]
+    collections = db.list_collection_names()
+    client.close()
+    return collections
 
 
 if __name__ == "__main__":
