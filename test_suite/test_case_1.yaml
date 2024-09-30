@@ -1,7 +1,7 @@
-test_name: "Test Case 1"
+test_name: "Test Case 3"
 data-validations:
     source: mysql
-    target: mongdb
+    target: mongodb
     to-be-performed: true
     steps:
         - validate_row_table_count

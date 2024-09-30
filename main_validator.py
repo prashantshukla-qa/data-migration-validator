@@ -53,6 +53,7 @@ def perform_validation(test_case):
             elif "schema" in test_type.lower():
                 print("Validating schema of source and target data")
                 print("="*20)
+                validate_data.check_for_table_schema(test_case)
             elif "duplicate" in test_type.lower():
                 print("Checking for duplicates")
                 print("="*20)

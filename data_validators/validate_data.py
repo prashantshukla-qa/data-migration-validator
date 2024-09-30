@@ -6,9 +6,7 @@ from colorama import Fore, init
 init(autoreset=True)
 
 mysql_connection_yaml = get_yaml(Constants.DATABASE_CONFIG_FILENAME)["mysql"]
-mongodb_connection_yaml = get_yaml(
-    Constants.DATABASE_CONFIG_FILENAME)["mongodb"]
-
+mongodb_connection_yaml = get_yaml(Constants.DATABASE_CONFIG_FILENAME)["mongodb"]
 
 def check_for_duplicates():
     primary_keys_from_mysql = mysql_conn.get_mysql_primary_keys(
@@ -17,7 +15,6 @@ def check_for_duplicates():
         mongodb_conn.check_duplicates_mongodb(
             mongodb_connection_yaml, each_key, primary_keys_from_mysql[each_key])
     pass
-
 
 def check_table_row_count():
     """
@@ -39,6 +36,14 @@ def check_table_row_count():
     else:
         print(Fore.RED + "MYSQL table and row count does not match to the MONGODB collection and Documents\n")
 
+def check_for_table_schema(test_case):
+    if test_case["data-validations"]["target"].lower() == "mongodb":
+        print (Fore.YELLOW + "Schema Validation for Mongo DB Target is not feasible")
+    else:
+        try:
+            raise Exception("Schema validation is pendin implementation")
+        except Exception as e:
+            print(Fore.RED + f"Warning: {e}")
 
 def print_mysql_mongo_table_details(db_table_row_count, mongodb_collections):
     print("Validating individual Table Row Counts!")
