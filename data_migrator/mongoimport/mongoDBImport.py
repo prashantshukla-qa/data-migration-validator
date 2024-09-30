@@ -1,7 +1,7 @@
 import json
 from pymongo import MongoClient
-from ...constants import Constants
-from ...read_yaml import get_yaml
+from utils.constants import Constants
+from utils.read_yaml import get_yaml
 
 mongodb_yaml = get_yaml(Constants.DATABASE_CONFIG_FILENAME)["mongodb"]
 

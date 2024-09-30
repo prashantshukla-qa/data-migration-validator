@@ -1,20 +1,23 @@
 import mysql.connector
 from pymongo import MongoClient
+from utils import file_utils
+from db_scripts.mysql import sql_scripts
 import simplejson as json
 
 
 def get_mysql_table_row_count(connection_yaml):
     mydb = get_mysql_connection(connection_yaml=connection_yaml)
     mycursor = mydb.cursor()
-    mycursor.execute("SELECT table_name FROM information_schema.tables WHERE table_schema = '%s';" %
-                     connection_yaml["database"])
+    mycursor.execute(sql_scripts.queries.GET_TABLE_NAMES,
+                     (connection_yaml["database"],))
     db_tables = mycursor.fetchall()
     db_rows = {}
     for table in db_tables:
         mycursor = mydb.cursor()
-        mycursor.execute(
-            "SELECT COUNT(*) FROM {0}.{1}".format(connection_yaml["database"], table[0]))
+        mycursor.execute(sql_scripts.queries.GET_ROW_COUNT.format(
+            connection_yaml["database"], table[0]))
         db_rows[table[0]] = mycursor.fetchone()[0]
+    mydb.close()
     return db_rows
 
 

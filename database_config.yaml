@@ -1,3 +1,7 @@
+migration:
+  source: mysql
+  target: mongodb
+
 # mysql database connection details
 mysql:
   host: localhost

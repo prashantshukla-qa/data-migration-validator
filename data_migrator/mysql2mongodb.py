@@ -1,9 +1,9 @@
 import simplejson as json
 from datetime import date, datetime
-from .mongoimport import mongoDBImport
-from src import database_connector
-from src.constants import Constants
-from src.read_yaml import get_yaml
+from data_migrator.mongoimport import mongoDBImport
+from utils import database_connector
+from utils.constants import Constants
+from utils.read_yaml import get_yaml
 
 
 def serialize_datetime(obj):
