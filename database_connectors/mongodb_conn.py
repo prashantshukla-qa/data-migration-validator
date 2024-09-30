@@ -27,13 +27,13 @@ def check_duplicates_mongodb(mongo_connection_yaml, collection_name, primary_fie
     ]
     duplicates = list(collection.aggregate(pipeline))
     if duplicates:
-        print(Fore.RED + f"Found {len(duplicates)} sets of duplicates in collection:- " + collection_name)
+        print(Fore.RED + f"\tFound {len(duplicates)} sets of duplicates in collection:- " + collection_name)
         for duplicate in duplicates:
-            print(f"\tDuplicate fields: {duplicate['fields']}")
-            print(f"\tCount: {duplicate['count']}")
-            print(f"\tDocument IDs: {duplicate['ids']}")
+            print(f"\t\tDuplicate fields: {duplicate['fields']}")
+            print(f"\t\tCount: {duplicate['count']}")
+            print(f"\t\tDocument IDs: {duplicate['ids']}")
     else:
-        print(Fore.GREEN + "No duplicates found for the collection:- " + collection_name)
+        print(Fore.GREEN + "\tNo duplicates found for the collection:- " + collection_name)
     client.close()
 
 
