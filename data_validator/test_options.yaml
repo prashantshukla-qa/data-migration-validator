@@ -1,0 +1,12 @@
+data-validations:
+    to-be-performed: false
+    type:
+        - validate_row_table_count
+        - validate_schema
+        - check_for_duplicates
+        - validate_min_max
+
+data-migration:
+    to-be-performed: true
+    source: mysql
+    target: mongdb

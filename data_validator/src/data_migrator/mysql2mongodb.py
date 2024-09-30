@@ -1,7 +1,9 @@
-import mysql.connector
 import simplejson as json
 from datetime import date, datetime
-from mongoimport import mongoDBImport
+from .mongoimport import mongoDBImport
+from src import database_connector
+from src.constants import Constants
+from src.read_yaml import get_yaml
 
 
 def serialize_datetime(obj):
@@ -11,24 +13,16 @@ def serialize_datetime(obj):
 
 
 def main():
-
-    mydb = mysql.connector.connect(
-        host="localhost",
-        user="prashant",
-        password="Qait@123",
-        database="autoretail"
-    )
-
+    database_yaml = get_yaml(Constants.DATABASE_CONFIG_FILENAME)
+    mydb = database_connector.get_mysql_connection(database_yaml["mysql"])
     mycursor = mydb.cursor()
 
-    mycursor.execute(
-        "SELECT table_name FROM information_schema.tables WHERE table_schema = 'autoretail';")
+    mycursor.execute("SELECT table_name FROM information_schema.tables WHERE table_schema = '%s';" %
+                     database_yaml["mysql"]["database"])
 
     db_tables = mycursor.fetchall()
 
     for table in db_tables:
-        print("="*10)
-
         mycursor.execute(("SELECT * FROM autoretail.%s" % table))
         myresult = mycursor.fetchall()
 
@@ -42,6 +36,5 @@ def main():
 
         mongoDBImport.import_to_mongoDB(table[0], json.dumps(
             customers, default=serialize_datetime, use_decimal=True))
+        print("="*10)
 
-if __name__ == "__main__":
-    main()

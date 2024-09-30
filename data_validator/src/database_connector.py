@@ -1,10 +1,9 @@
 import mysql.connector
 from pymongo import MongoClient
 import simplejson as json
-from datetime import date, datetime
 
 
-def get_mmysql_table_row_count(connection_yaml):
+def get_mysql_table_row_count(connection_yaml):
     mydb = get_mysql_connection(connection_yaml=connection_yaml)
     mycursor = mydb.cursor()
     mycursor.execute("SELECT table_name FROM information_schema.tables WHERE table_schema = '%s';" %
@@ -28,7 +27,7 @@ def get_mysql_connection(connection_yaml):
     )
 
 
-def get_mongodb_document(mongo_connection_yaml, collection_name):
+def get_mongodb_documents(mongo_connection_yaml, collection_name):
     client = MongoClient(
         mongo_connection_yaml["host"], mongo_connection_yaml["port"])
     db = client[mongo_connection_yaml["database"]]

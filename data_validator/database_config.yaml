@@ -1,0 +1,15 @@
+# mysql database connection details
+mysql:
+  host: localhost
+  port: 3306
+  username: prashant
+  password: Qait@123
+  database: autoretail
+
+# mongodb connection details
+mongodb:
+  host: localhost
+  port: 27017
+  username: prashant-mongo
+  password: Qait@123
+  database: AutoRetail
