@@ -1,4 +1,4 @@
-test_name: "Test Case 3"
+test_name: "Test Case 1"
 data-validations:
     source: mysql
     target: mongodb
@@ -6,6 +6,4 @@ data-validations:
     steps:
         - validate_row_table_count
         - validate_schema
-        - check_for_duplicates
         - validate_min_max
-

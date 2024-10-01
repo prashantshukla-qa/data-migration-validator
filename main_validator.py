@@ -47,36 +47,24 @@ def perform_validation(test_case):
     else:
         for test_type in test_case["data-validations"]["steps"]:
             if "row" in test_type.lower() and "count" in test_type.lower():
-                print("Validating Row Count Post Migration")
+                print("\nValidating Row Count Post Migration")
                 print("="*20)
                 validate_data.check_table_row_count()
             elif "schema" in test_type.lower():
-                print("Validating schema of source and target data")
+                print("\nValidating schema of source and target data")
                 print("="*20)
                 validate_data.check_for_table_schema(test_case)
             elif "duplicate" in test_type.lower():
-                print("Checking for duplicates")
+                print("\nChecking for duplicates")
                 print("="*20)
                 validate_data.check_for_duplicates()
             elif "validate_min_max" in test_type.lower():
-                print("Checking for Min Max Values")
+                print("\nChecking for Min Max Values")
                 print("="*20)
             else:
                 raise Exception(
                     "%s is an invalid validation check for data migration." % test_type)
         print("Test case '" + test_case["test_name"] + "' Execution Completed\n")
-
-
-def validate_row_count():
-    pass
-
-
-def validate_schema():
-    pass
-
-
-def validate_duplicates():
-    pass
 
 
 if __name__ == "__main__":

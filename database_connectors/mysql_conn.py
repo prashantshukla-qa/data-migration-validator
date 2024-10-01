@@ -1,9 +1,6 @@
 import mysql.connector
-from pymongo import MongoClient
-from utils import file_utils
 from db_scripts.mysql import sql_scripts
 from collections import defaultdict
-import simplejson as json
 
 
 def get_mysql_table_row_count(connection_yaml):
@@ -28,9 +25,9 @@ def get_mysql_table_row_count(connection_yaml):
 def get_mysql_primary_keys(mysql_connection_yaml):
     mysql_db = get_mysql_connection(connection_yaml=mysql_connection_yaml)
     mycursor = mysql_db.cursor(buffered=True)
-    mycursor.execute(sql_scripts.queries.GET_TABLE_NAMES,
-                     (mysql_connection_yaml["database"],))
-    db_tables = mycursor.fetchall()
+    # mycursor.execute(sql_scripts.queries.GET_TABLE_NAMES,
+    #                  (mysql_connection_yaml["database"],))
+    # db_tables = mycursor.fetchall()
     primary_keys = defaultdict(list)
     mycursor.execute(sql_scripts.queries.GET_PRIMARY_KEYS,
                      (mysql_connection_yaml["database"],))
@@ -49,6 +46,27 @@ def get_mysql_connection(connection_yaml):
         database=connection_yaml["database"]
     )
 
-
-if __name__ == "__main__":
-    pass
+def get_mysql_min_max_values(mysql_connection_yaml):
+    try:
+        table_schema = {}
+        min_max_for_each_table = {}
+        mysql_db = get_mysql_connection(connection_yaml=mysql_connection_yaml)
+        mycursor = mysql_db.cursor(buffered=True)
+        mycursor.execute(sql_scripts.queries.GET_TABLE_NAMES,
+                     (mysql_connection_yaml["database"],))
+        db_tables = mycursor.fetchall()
+        for each_table in db_tables:
+            min_max_for_each_column = {}
+            mycursor.execute("SHOW COLUMNS FROM autoretail.{}".format(each_table[0]))
+            columns = [row[0] for row in mycursor.fetchall()]
+            table_schema[each_table] = columns
+            for column in columns:
+                query = f"SELECT MIN({column}), MAX({column}) FROM {each_table[0]}"
+                mycursor.execute(query)
+                result = mycursor.fetchone()
+                min_max_for_each_column[column] = {'min': result[0], 'max': result[1]}
+            min_max_for_each_table[each_table[0]] = min_max_for_each_column
+        return min_max_for_each_table
+    finally:
+        if mysql_db:
+            mysql_db.close()

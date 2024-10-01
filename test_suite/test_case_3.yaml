@@ -1,10 +1,8 @@
-test_name: "Test Case 2"
+test_name: "Test Case 3"
 data-validations:
     source: mysql
     target: mongodb
     to-be-performed: true
     steps:
-        # - validate_row_table_count
-        - validate_schema
-        # - check_for_duplicates
+        - check_for_duplicates
 

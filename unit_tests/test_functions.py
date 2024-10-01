@@ -49,3 +49,13 @@ class TestFunctions:
         filecontent = utils.file_utils.read_file_content(
             Constants.MYSQL_DB_SCRIPTS_FILELOC + "get_table_row_count.sql")
         print(filecontent)
+
+    def test_validate_min_max_values(self):
+        """
+        Test validate min max values for each table. 
+        """
+        validate_data.match_min_max_values()
+        
+    def test_mongodb_min_max_present(self):
+        result = validate_data.validate_min_max_presence()
+        print (result)
