@@ -20,7 +20,7 @@ def check_for_duplicates():
     for each_key in primary_keys_from_mysql:
         mongodb_conn.check_duplicates_mongodb(
             mongodb_connection_yaml, each_key, primary_keys_from_mysql[each_key])
-    pass
+    
 
 
 def check_table_row_count():
@@ -100,9 +100,10 @@ def validate_min_max_presence():
                 results[table][column]["comment"] = "Max"
                 results[table][column]["value"]["mongodb"] = mongodb_min_max["max"]
                 results[table][column]["value"]["mysql"] = mysql_min_max_for_all_tables[table][column]["max"]
-    # print_json(mongodb_min_max_aggregate)
-    print_json(results)
-    pass
+    if results:
+        print (Fore.RED + "Min Max validation test failed for following data")
+        print (Fore.RED + str(json.dumps(results, default=serialize_datetime, use_decimal=True)))
+        
 
 
 def match_min_max_values():

@@ -61,6 +61,7 @@ def perform_validation(test_case):
             elif "validate_min_max" in test_type.lower():
                 print("\nChecking for Min Max Values")
                 print("="*20)
+                validate_data.validate_min_max_presence()
             else:
                 raise Exception(
                     "%s is an invalid validation check for data migration." % test_type)
